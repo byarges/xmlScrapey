@@ -75,11 +75,16 @@ sitesDoc.close()
 #f = open("index.html", "w")
 f = open("/var/www/html/index.html", "w")
 
+htmlheader=open('htmlheader.html', 'r')
+htmlfooter=open('htmlfooter.html', 'r')
 
-theDoc="<h1>Top 100 words used in headlines</h1></br><h2>the headlines from the following sites are scraped every hour and sorted for the top 100 words.</h2>"
 
 
-f.write(theDoc+sitesUsed+"</br>"+"<h2>Output Below as Shown</h2></br>"+"<p>"+str(topWords)+"</p>")
+f.write(htmlheader.read()+str(sitesUsed)+"</br>"+"<h2>Output Below as Shown</h2></br>"+"<p>"+str(topWords)+"</p>"+htmlfooter.read())
+
+htmlheader.close()
+htmlfooter.close()
+
 f.close()
 
 
