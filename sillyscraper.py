@@ -80,13 +80,12 @@ for i in sitesDoc:
 	AllTheWords=AllTheWords+(scrapeTheNews(i))
 	sitesUsed=sitesUsed+'<li class="list-group-item">'+get_source(i)+"</li>"
 
-
 topWords=Counter(AllTheWords).most_common(100)
 sitesDoc.close()
 
 #local vs server toggle
-#f = open("index.html", "w")
-f = open("/var/www/html/index.html", "w")
+f = open("index.html", "w")
+#f = open("/var/www/html/index.html", "w")
 
 htmlheader=open('htmlheader.html', 'r')
 htmlfooter=open('htmlfooter.html', 'r')
