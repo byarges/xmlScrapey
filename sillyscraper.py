@@ -16,12 +16,28 @@ punc = '''!()--—[]{};:'",<>./?@#$%^&*_~'''
 lengthofcounter=0
 AllTheWords=[]
 
-#change this to be from a file
-filterwords =["New","The","York","Times","A",
-"in","to", "the","was","when","his","News","for","I","where","of","on", "+", "and","a","by","with","is","as","be","after","are","at","or","&","|","from","Is","With","but","has","than","an","your","Do","But","it",">","which","that","have","will","they","That","can","Other","their","how","you","could","my","feedback!","hour","about"]
+
+#Create Listing for the sites used
+filterwords=[]
+filterW = open("filterwords.txt", "r")
+for i in filterW:
+	filterwords.append(i.strip())
+filterW.close()
 
 for l in filterwords:
-		lengthofcounter=lengthofcounter+1
+	lengthofcounter=lengthofcounter+1
+
+
+def get_source(url):
+    url = urllib.parse.urlparse(url).netloc
+    source = url.split('.')
+    if len(source) == 2:
+        source = source[0]
+    elif len(source) == 3:
+        source = source[1]
+    elif len(source) == 4:
+        source = source[1]
+    return source
 
 
 def scrapeTheNews(site):
@@ -29,12 +45,9 @@ def scrapeTheNews(site):
 	counter=0
 	newline = ""
 
-#	thislist = []
 	the_page = requests.get(site)
 	soup=BeautifulSoup(the_page.content, "xml")
 	get_tag=soup.find_all('item')
-
-
 
 	#Get rid of punctuation
 	for i in get_tag:
@@ -65,7 +78,7 @@ sitesUsed=""
 sitesDoc = open("sites.txt", "r")
 for i in sitesDoc:
 	AllTheWords=AllTheWords+(scrapeTheNews(i))
-	sitesUsed=sitesUsed+"<p>"+i+"</p>"
+	sitesUsed=sitesUsed+'<li class="list-group-item">'+get_source(i)+"</li>"
 
 
 topWords=Counter(AllTheWords).most_common(100)
@@ -77,7 +90,6 @@ f = open("/var/www/html/index.html", "w")
 
 htmlheader=open('htmlheader.html', 'r')
 htmlfooter=open('htmlfooter.html', 'r')
-
 
 
 f.write(htmlheader.read()+str(sitesUsed)+"</br>"+"<h2>Output Below as Shown</h2></br>"+"<p>"+str(topWords)+"</p>"+htmlfooter.read())
