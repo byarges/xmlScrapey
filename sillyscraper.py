@@ -105,7 +105,7 @@ htmlheader=open('htmlheader.html', 'r')
 htmlfooter=open('htmlfooter.html', 'r')
 
 #write the index.html page NOTE: THIS IS VERY MESSY. I'm close divving the dropdown in here and other messes
-f.write(htmlheader.read()+str(sitesUsed)+"</div></div>"+"</br>"+'<div class="container">'+' <img src="wordcloud.png" alt="wordcloud" width=100%>'+"<div>"+"</br></br>"+htmlfooter.read())
+f.write(htmlheader.read()+str(sitesUsed)+"</div></div>"+'<div class="container">'+' <img src="wordcloud.png" alt="wordcloud" width=100%>'+"<div>"+"</br></br>"+htmlfooter.read())
 
 #close files
 htmlheader.close()
