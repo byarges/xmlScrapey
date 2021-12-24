@@ -88,7 +88,7 @@ def plot_cloud(wordcloud):
     plt.axis("off");
 
 #Wordcloud and matplot
-wordcloud = WordCloud(width= 3000, height = 2000, max_words=50, random_state=1, background_color='DarkSeaGreen', colormap='prism', collocations=False, stopwords = STOPWORDS).generate(AllTheWords)# Plot
+wordcloud = WordCloud(width= 3000, height = 4000, max_words=50, random_state=1, background_color='DarkSeaGreen', colormap='prism', collocations=False, stopwords = STOPWORDS).generate(AllTheWords)# Plot
 plot_cloud(wordcloud)
 
 #save image toggle
@@ -105,7 +105,7 @@ htmlheader=open('htmlheader.html', 'r')
 htmlfooter=open('htmlfooter.html', 'r')
 
 #write the index.html page NOTE: THIS IS VERY MESSY. I'm close divving the dropdown in here and other messes
-f.write(htmlheader.read()+str(sitesUsed)+"</div></div>"+"</br>"+'<div class="container">'+' <img src="wordcloud.png" alt="wordcloud" width=100%>'+"<div>"+ htmlfooter.read())
+f.write(htmlheader.read()+str(sitesUsed)+"</div></div>"+"</br>"+'<div class="container">'+' <img src="wordcloud.png" alt="wordcloud" width=100%>'+"<div>"+"</br></br>"+htmlfooter.read())
 
 #close files
 htmlheader.close()
