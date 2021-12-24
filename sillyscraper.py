@@ -69,7 +69,6 @@ def scrapeTheNews(site):
             counter=counter+1
     ridofquotes=str(actualwordlist)
     finaloutput=ridofquotes.replace("'","")
-    print(finaloutput)
     return finaloutput
 
 #Create Listing for the sites used
