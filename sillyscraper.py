@@ -1,33 +1,34 @@
-
 import requests
 from bs4 import BeautifulSoup
 import urllib.request
 import urllib.parse
-from collections import Counter
 
-import json
 import urllib.request
 import urllib.parse
 from bs4 import BeautifulSoup
 
+import matplotlib.pyplot as plt# Define a function to plot word cloud
+from wordcloud import WordCloud, STOPWORDS# Generate word cloud
 
-wordlist=[]
+
+#wordlist=""
 punc = '''!()--—[]{};:'",<>./?@#$%^&*_~'''
 lengthofcounter=0
-AllTheWords=[]
+AllTheWords=""
 
 
 #Create Listing for the sites used
 filterwords=[]
 filterW = open("filterwords.txt", "r")
 for i in filterW:
-	filterwords.append(i.strip())
+    filterwords.append(i.strip())
 filterW.close()
 
+#loop to determine the length of filterwords
 for l in filterwords:
-	lengthofcounter=lengthofcounter+1
+    lengthofcounter=lengthofcounter+1
 
-
+#Eric's loop to get the name of the news site
 def get_source(url):
     url = urllib.parse.urlparse(url).netloc
     source = url.split('.')
@@ -39,65 +40,74 @@ def get_source(url):
         source = source[1]
     return source
 
-
+#The main function that scrapes the news sites and currently also does some filtering
 def scrapeTheNews(site):
+    counter=0
+    newline = ""
+    wordlist = ""
+    the_page = requests.get(site)
+    soup=BeautifulSoup(the_page.content, "xml")
+    get_tag=soup.find_all('description')
 
-	counter=0
-	newline = ""
+    for i in get_tag:
+        line=i.get_text()
+        wordlist=wordlist+line
 
-	the_page = requests.get(site)
-	soup=BeautifulSoup(the_page.content, "xml")
-	get_tag=soup.find_all('item')
+        #This is supposed to get rid of punctuation but it doesn't work yet....
+        for ii in line:
+            if ii in punc:
+                ii=""
+                newline=newline+ii
+            else:
+                newline=newline+ii
 
-	#Get rid of punctuation
-	for i in get_tag:
-		line=i.description.get_text().strip()
-		for ii in line:
-			if ii in punc:
-				ii=""
-				newline=newline+ii
-			
-
-			else:
-				newline=newline+ii
-
-		for word in line.split():
-			wordlist.append(word)
-	
-
-	#the word filtering loop
-	while counter<lengthofcounter:
-			for i in wordlist:
-				if i == filterwords[counter]:
-					wordlist.remove(i)
-			counter=counter+1
-	return wordlist
+    #the word filtering loop
+    while counter<lengthofcounter:
+            for i in wordlist:
+                if i == filterwords[counter]:
+                    i=""
+            counter=counter+1
+    return wordlist
 
 #Create Listing for the sites used
 sitesUsed=""
 sitesDoc = open("sites.txt", "r")
 for i in sitesDoc:
-	AllTheWords=AllTheWords+(scrapeTheNews(i))
-	sitesUsed=sitesUsed+'<li class="list-group-item">'+get_source(i)+"</li>"
-
-topWords=Counter(AllTheWords).most_common(100)
+    AllTheWords=AllTheWords+scrapeTheNews(i)
+    sitesUsed=sitesUsed+'<li class="list-group-item">'+get_source(i)+"</li>"
 sitesDoc.close()
 
-#local vs server toggle
-#f = open("index.html", "w")
-f = open("/var/www/html/index.html", "w")
 
+#Wordcloud and matplot
+def plot_cloud(wordcloud):
+    # Set figure size
+    plt.figure(figsize=(40, 30))
+    # Display image
+    plt.imshow(wordcloud) 
+    # No axis details
+    plt.axis("off");
+
+#Wordcloud and matplot
+wordcloud = WordCloud(width= 3000, height = 2000, max_words=50, random_state=1, background_color='DarkSeaGreen', colormap='prism', collocations=False, stopwords = STOPWORDS).generate(AllTheWords)# Plot
+plot_cloud(wordcloud)
+
+#save image toggle
+wordcloud.to_file("wordcloud.png")
+#wordcloud.to_file("/var/www/html/wordcloud.png")
+
+
+#local vs server toggle
+f = open("index.html", "w")
+#f = open("/var/www/html/index.html", "w")
+
+#open static html files
 htmlheader=open('htmlheader.html', 'r')
 htmlfooter=open('htmlfooter.html', 'r')
 
+#write the index.html page
+f.write(htmlheader.read()+str(sitesUsed)+"</br>"+"<h2>Output Below as Shown</h2></br>"+"<p>"+' <img src="wordcloud.png" alt="wordcloud" width="500" height="600">'+"</p>"+htmlfooter.read())
 
-f.write(htmlheader.read()+str(sitesUsed)+"</br>"+"<h2>Output Below as Shown</h2></br>"+"<p>"+str(topWords)+"</p>"+htmlfooter.read())
-
+#close files
 htmlheader.close()
 htmlfooter.close()
-
 f.close()
-
-
-
-

@@ -1,8 +1,6 @@
 https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
 https://feeds.washingtonpost.com/rss/local
-https://www.latimes.com/california/rss2.0.xml
 https://www.chicagotribune.com/arcio/rss/category/news/breaking/
 http://feeds.foxnews.com/foxnews/latest
 https://feeds.npr.org/1004/rss.xml
 https://www.democracynow.org/democracynow.rss
-https://www.politico.eu/tag/foreign-policy/feed/
