@@ -74,7 +74,7 @@ sitesUsed=""
 sitesDoc = open("sites.txt", "r")
 for i in sitesDoc:
     AllTheWords=AllTheWords+scrapeTheNews(i)
-    sitesUsed=sitesUsed+'<li class="list-group-item">'+get_source(i)+"</li>"
+    sitesUsed=sitesUsed+'<p>'+get_source(i)+"</p>"
 sitesDoc.close()
 
 
@@ -92,20 +92,20 @@ wordcloud = WordCloud(width= 3000, height = 2000, max_words=50, random_state=1, 
 plot_cloud(wordcloud)
 
 #save image toggle
-#wordcloud.to_file("wordcloud.png")
-wordcloud.to_file("/var/www/html/wordcloud.png")
+wordcloud.to_file("wordcloud.png")
+#wordcloud.to_file("/var/www/html/wordcloud.png")
 
 
 #local vs server toggle
-#f = open("index.html", "w")
-f = open("/var/www/html/index.html", "w")
+f = open("index.html", "w")
+# #f = open("/var/www/html/index.html", "w")
 
 #open static html files
 htmlheader=open('htmlheader.html', 'r')
 htmlfooter=open('htmlfooter.html', 'r')
 
-#write the index.html page
-f.write(htmlheader.read()+str(sitesUsed)+"</br>"+"<h2>Output Below as Shown</h2></br>"+"<p>"+' <img src="wordcloud.png" alt="wordcloud" class="img-fluid">'+"</p>"+htmlfooter.read())
+#write the index.html page NOTE: THIS IS VERY MESSY. I'm close divving the dropdown in here and other messes
+f.write(htmlheader.read()+str(sitesUsed)+"</div></div>"+"</br>"+'<div class="container">'+"<p>"+' <img src="wordcloud.png" alt="wordcloud" width="500" height="600">'+"</p>"+"<div>"+ htmlfooter.read())
 
 #close files
 htmlheader.close()
