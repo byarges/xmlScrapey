@@ -60,16 +60,14 @@ def scrapeTheNews(site):
                 newline=newline+ii
             else:
                 newline=newline+ii
-    actualwordlist=wordlist.split(' ')
+
     #the word filtering loop
     while counter<lengthofcounter:
-            for i in actualwordlist:
+            for i in wordlist.split():
                 if i == filterwords[counter]:
-                    actualwordlist.remove(i)
+                    i=""
             counter=counter+1
-    ridofquotes=str(actualwordlist)
-    finaloutput=ridofquotes.replace("'","")
-    return finaloutput
+    return wordlist
 
 #Create Listing for the sites used
 sitesUsed=""
@@ -93,13 +91,13 @@ wordcloud = WordCloud(width= 3000, height = 4000, max_words=50, random_state=1, 
 plot_cloud(wordcloud)
 
 #save image toggle
-#wordcloud.to_file("wordcloud.png")
-wordcloud.to_file("/var/www/html/wordcloud.png")
+wordcloud.to_file("wordcloud.png")
+#wordcloud.to_file("/var/www/html/wordcloud.png")
 
 
 #local vs server toggle
-#f = open("index.html", "w")
-f = open("/var/www/html/index.html", "w")
+f = open("index.html", "w")
+#f = open("/var/www/html/index.html", "w")
 
 #open static html files
 htmlheader=open('htmlheader.html', 'r')
