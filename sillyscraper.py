@@ -105,7 +105,7 @@ htmlheader=open('htmlheader.html', 'r')
 htmlfooter=open('htmlfooter.html', 'r')
 
 #write the index.html page
-f.write(htmlheader.read()+str(sitesUsed)+"</br>"+"<h2>Output Below as Shown</h2></br>"+"<p>"+' <img src="wordcloud.png" alt="wordcloud" width="500" height="600">'+"</p>"+htmlfooter.read())
+f.write(htmlheader.read()+str(sitesUsed)+"</br>"+"<h2>Output Below as Shown</h2></br>"+"<p>"+' <img src="wordcloud.png" alt="wordcloud" class="img-fluid">'+"</p>"+htmlfooter.read())
 
 #close files
 htmlheader.close()
