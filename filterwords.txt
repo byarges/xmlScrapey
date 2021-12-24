@@ -9,11 +9,10 @@ The
 York
 Times
 A
-#
 in
 to
- the
- was
+the
+was
 when
 his
 News
@@ -22,9 +21,9 @@ I
 where
 of
 on
- +
- and
- a
++
+and
+a
 by
 with
 is
@@ -47,7 +46,6 @@ your
 Do
 But
 it
->
 which
 that
 have
@@ -102,3 +100,10 @@ off
 top
 said
 people
+say
+now
+D
+says
+Said
+will
+go

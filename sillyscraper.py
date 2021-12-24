@@ -60,14 +60,17 @@ def scrapeTheNews(site):
                 newline=newline+ii
             else:
                 newline=newline+ii
-
+    actualwordlist=wordlist.split(' ')
     #the word filtering loop
     while counter<lengthofcounter:
-            for i in wordlist:
+            for i in actualwordlist:
                 if i == filterwords[counter]:
-                    i=""
+                    actualwordlist.remove(i)
             counter=counter+1
-    return wordlist
+    ridofquotes=str(actualwordlist)
+    finaloutput=ridofquotes.replace("'","")
+    print(finaloutput)
+    return finaloutput
 
 #Create Listing for the sites used
 sitesUsed=""
@@ -76,7 +79,6 @@ for i in sitesDoc:
     AllTheWords=AllTheWords+scrapeTheNews(i)
     sitesUsed=sitesUsed+'<p>'+get_source(i)+"</p>"
 sitesDoc.close()
-
 
 #Wordcloud and matplot
 def plot_cloud(wordcloud):
