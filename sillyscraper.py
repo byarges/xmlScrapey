@@ -54,19 +54,20 @@ def scrapeTheNews(site):
         wordlist=wordlist+line
 
         #This is supposed to get rid of punctuation but it doesn't work yet....
-        for ii in line:
-            if ii in punc:
-                ii=""
-                newline=newline+ii
-            else:
-                newline=newline+ii
+        # for ii in line:
+        #     if ii in punc:
+        #         ii=""
+        #         newline=newline+ii
+        #     else:
+        #         newline=newline+ii
 
     #the word filtering loop
     while counter<lengthofcounter:
-            for i in wordlist.split():
+            for i in wordlist:
                 if i == filterwords[counter]:
                     i=""
             counter=counter+1
+    print (wordlist)
     return wordlist
 
 #Create Listing for the sites used
