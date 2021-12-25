@@ -67,7 +67,6 @@ def scrapeTheNews(site):
                 if i == filterwords[counter]:
                     i=""
             counter=counter+1
-    print (wordlist)
     return wordlist
 
 #Create Listing for the sites used
