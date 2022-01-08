@@ -4,3 +4,4 @@ http://feeds.foxnews.com/foxnews/latest
 https://feeds.npr.org/1004/rss.xml
 https://www.democracynow.org/democracynow.rss
 https://www.newsmax.com/rss/US/18/
+https://www.cbsnews.com/latest/rss/us

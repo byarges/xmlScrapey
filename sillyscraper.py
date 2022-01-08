@@ -1,8 +1,4 @@
 import requests
-from bs4 import BeautifulSoup
-import urllib.request
-import urllib.parse
-
 import urllib.request
 import urllib.parse
 from bs4 import BeautifulSoup
@@ -10,23 +6,13 @@ from bs4 import BeautifulSoup
 import matplotlib.pyplot as plt# Define a function to plot word cloud
 from wordcloud import WordCloud, STOPWORDS# Generate word cloud
 
+CUSTOMSTOPWORDS={"says", "u", "s", "said", "c", "d", "officials", "top", "will", "resident", "reported", "former", "city", "according", "p", "img", "one", "day", "three", "already", "say", "CBS", "obituaries", "nearly", "home", "residents", "nearly", "expected", "NPR", "week", "report", "two", "case", "latest", "asked", "office", "time"}
+COMBINEDSTOPWORDS=set.union(STOPWORDS, CUSTOMSTOPWORDS)
 
 #wordlist=""
 punc = '''!()--—[]{};:'",<>./?@#$%^&*_~'''
 lengthofcounter=0
 AllTheWords=""
-
-
-#Create Listing for the sites used
-filterwords=[]
-filterW = open("filterwords.txt", "r")
-for i in filterW:
-    filterwords.append(i.strip())
-filterW.close()
-
-#loop to determine the length of filterwords
-for l in filterwords:
-    lengthofcounter=lengthofcounter+1
 
 #Eric's loop to get the name of the news site
 def get_source(url):
@@ -46,6 +32,7 @@ def scrapeTheNews(site):
     newline = ""
     wordlist = ""
     the_page = requests.get(site)
+    the_page.headers['User-Agent']='Mozilla/5.0'
     soup=BeautifulSoup(the_page.content, "xml")
     get_tag=soup.find_all('description')
 
@@ -54,12 +41,12 @@ def scrapeTheNews(site):
         wordlist=wordlist+line
 
         #This is supposed to get rid of punctuation but it doesn't work yet....
-        # for ii in line:
-        #     if ii in punc:
-        #         ii=""
-        #         newline=newline+ii
-        #     else:
-        #         newline=newline+ii
+        for ii in line:
+            if ii in punc:
+                ii=""
+                newline=newline+ii
+            else:
+                newline=newline+ii
 
     #the word filtering loop
     while counter<lengthofcounter:
@@ -77,6 +64,7 @@ for i in sitesDoc:
     sitesUsed=sitesUsed+'<p>'+get_source(i)+"</p>"
 sitesDoc.close()
 
+
 #Wordcloud and matplot
 def plot_cloud(wordcloud):
     # Set figure size
@@ -87,7 +75,7 @@ def plot_cloud(wordcloud):
     plt.axis("off");
 
 #Wordcloud and matplot
-wordcloud = WordCloud(width= 3000, height = 4000, max_words=50, random_state=1, background_color='DarkSeaGreen', colormap='prism', collocations=False, stopwords = STOPWORDS).generate(AllTheWords)# Plot
+wordcloud = WordCloud(width= 3000, height = 2000, max_words=50, random_state=1, background_color='DarkSeaGreen', colormap='prism', collocations=False, stopwords = COMBINEDSTOPWORDS).generate(AllTheWords)# Plot
 plot_cloud(wordcloud)
 
 #save image toggle
@@ -104,7 +92,7 @@ htmlheader=open('htmlheader.html', 'r')
 htmlfooter=open('htmlfooter.html', 'r')
 
 #write the index.html page NOTE: THIS IS VERY MESSY. I'm close divving the dropdown in here and other messes
-f.write(htmlheader.read()+str(sitesUsed)+"</div></div>"+'<div class="container">'+' <img src="wordcloud.png" alt="wordcloud" width=100%>'+"<div>"+"</br></br>"+htmlfooter.read())
+f.write(htmlheader.read()+str(sitesUsed)+"</div></div>"+"</br>"+'<div class="container">'+' <img src="wordcloud.png" alt="wordcloud" width="500" height="600">'+"<div>"+ htmlfooter.read())
 
 #close files
 htmlheader.close()
